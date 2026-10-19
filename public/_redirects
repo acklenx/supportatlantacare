@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects (https://developers.cloudflare.com/pages/configuration/redirects/)
+# Old WordPress URLs that people may still have bookmarked or linked in emails.
+/events-coming-soon/  /events/  301
+/events-coming-soon   /events/  301
+/wp-content/uploads/2020/12/Privacy-Policy-Support-Site-002.pdf  /docs/privacy-policy.pdf  301
+/wp-content/uploads/2020/12/ACC-Terms-of-Service-for-new-Support-Site-2020-1.pdf  /docs/terms-of-service.pdf  301

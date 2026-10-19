@@ -138,6 +138,35 @@ page (`src/layouts/Base.astro` and `src/pages/admin.astro`), `public/robots.txt`
 (`public/_headers`, read by Cloudflare Pages). There is deliberately no sitemap. The public
 atlantacare.com site is the opposite: indexable, with a sitemap.
 
+## Analytics (Google Tag Manager)
+
+The whole site loads one Google Tag Manager container, `GTM-T2RKZ4L`, the same one the
+WordPress site used. The snippet lives in exactly one place, `src/layouts/Base.astro`, and reads
+the container ID from **Site Settings → Google Tag Manager container ID** in the editor.
+Because every page (pages, events, the 404 page) is rendered through that layout, nothing has
+to be added to a new page for it to be tracked.
+
+- **New page or event made in the editor:** nothing to do; it is tracked automatically.
+- **New hand-coded page under `src/pages/`:** wrap it in `Base.astro` like `index.astro` and
+  `404.astro` do. That is the only rule.
+- **Never paste a Google snippet into page content** or into `Base.astro`. Everything else,
+  such as new tags, triggers, GA4 events, conversion tags, ad pixels and campaign tracking for a
+  specific event page, is done in the GTM dashboard and goes live when a container version is
+  published. No code change, no deploy.
+- **Switching to a different container** (a new GTM account): change the ID in Site Settings.
+  Leaving it blank turns tracking off.
+
+Inside the container today: a GA4 configuration tag (property `G-ZJFR44RNRQ`) on every page,
+plus GA4 events for phone clicks (`tel:` links), email clicks (`mailto:` links), PDF downloads
+(links ending in `.pdf`), outbound links, scroll depth and a 20-second reading timer. Keep
+links plain (`href="tel:…"`, a real `.pdf` URL, normal anchors) and those keep working on new
+pages. The "Contact Form Submission" tag and its jQuery helper are left over from the WordPress
+contact form and can never fire here (no form, no jQuery); the three Universal Analytics tags
+(`UA-…`) send to a service Google shut down in 2023. Both are harmless and can be removed in GTM.
+
+Old WordPress URLs (`/events-coming-soon/`, the two PDF paths under `/wp-content/uploads/`)
+redirect to their new homes via `public/_redirects`.
+
 ## Going live (Cloudflare Pages + GitHub)
 
 1. The source lives at [AtlantaCareCenter/supportatlantacare](https://github.com/AtlantaCareCenter/supportatlantacare)
